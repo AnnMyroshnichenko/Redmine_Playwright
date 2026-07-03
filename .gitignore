@@ -1,0 +1,70 @@
+# Node.js
+
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Environment variables
+
+.env
+.env.*
+!.env.example
+
+# Playwright
+
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+playwright/.auth/
+auth/
+
+screenshots/
+videos/
+traces/
+
+# Allure
+
+allure-results/
+allure-report/
+
+# Coverage
+
+coverage/
+.nyc_output/
+
+# TypeScript
+
+*.tsbuildinfo
+
+# Logs
+
+logs/
+*.log
+
+# IDEs
+
+.vscode/
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/
+
+# OS files
+
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Temporary files
+
+tmp/
+temp/
+*.tmp
+
+# Build output
+
+dist/
+build/
+out/

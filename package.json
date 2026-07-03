@@ -1,0 +1,17 @@
+{
+  "devDependencies": {
+    "@playwright/test": "^1.61.1",
+    "@types/node": "^26.1.0",
+    "@types/speakeasy": "^2.0.10",
+    "allure-commandline": "^2.43.0",
+    "allure-playwright": "^3.10.2",
+    "otplib": "^13.4.1",
+    "typescript": "^6.0.3"
+  },
+  "scripts": {},
+  "dependencies": {
+    "@faker-js/faker": "^10.5.0",
+    "dotenv": "^17.4.2",
+    "speakeasy": "^2.0.0"
+  }
+}

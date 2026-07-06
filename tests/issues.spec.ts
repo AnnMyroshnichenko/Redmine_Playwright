@@ -1,16 +1,15 @@
 import { test, expect } from '../fixtures/pages';
+import { issuesData } from '../test-data/issues.data';
 
 test.describe('Issues', () => {
-  test('TC-004 View Public Issue Details', async ({
-    page,
-    issuesPage,
-  }) => {
+
+  test.beforeEach(async ({ page, issuesPage }) => {
     await issuesPage.open();
-
     await expect(page).toHaveURL(/\/issues/);
+  });
 
+  test('TC-004 View Public Issue Details', async ({ page, issuesPage,}) => {
     await issuesPage.openFirstIssue();
-
     await expect(page).toHaveURL(/\/issues\/\d+/);
 
     await expect(issuesPage.subject).toBeVisible();
@@ -18,27 +17,18 @@ test.describe('Issues', () => {
     await expect(issuesPage.author).toBeVisible();
   });
 
-  test('TC-005 Filter Issues by Status', async ({
-    page,
-    issuesPage,
-  }) => {
-    await issuesPage.open();
-
-    await expect(page).toHaveURL(/issues/);
-
+  test('TC-005 Filter Issues by Status', async ({ issuesPage}) => {
+    const { option, value, label } = issuesData.filters.closed;
+    
     await expect(issuesPage.statusFilter).toBeVisible();
-
-    await issuesPage.selectStatus('closed');
-
-    await expect(issuesPage.statusFilter)
-      .toHaveValue('c');
-
+    await issuesPage.selectStatus(option);
+    await expect(issuesPage.statusFilter).toHaveValue(value);
     await issuesPage.applyFilters();
 
     const count = await issuesPage.issueRows.count();
 
     for (let i = 0; i < count; i++) {
-      await expect(issuesPage.issueRows.nth(i)).toContainText('Closed');
+      await expect(issuesPage.issueRows.nth(i)).toContainText(label, { ignoreCase: true });
     }
   });
 });

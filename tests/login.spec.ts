@@ -4,6 +4,7 @@ import { env } from '../config/env';
 import { generateOTP } from '../utils/otp';
 
 test.describe('Login', () => {
+
   test.beforeEach(async ({ loginPage }) => {
     await loginPage.open();
 
@@ -11,39 +12,22 @@ test.describe('Login', () => {
     await expect(loginPage.passwordInput).toBeVisible();
   });
 
-  test('TC-001 User logs in successfully with valid credentials and 2FA', async ({
-    loginPage,
-    twoFAPage,
-    homePage,
-  }) => {
+  test('TC-001 User logs in successfully with valid credentials and 2FA', 
+    async ({ loginPage, twoFAPage, homePage,}) => {
+    await loginPage.enterUsername(env.username);
+    await loginPage.enterPassword(env.password);
+    await loginPage.clickSignIn();
 
-    await test.step('Login with valid credentials', async () => {
-      await loginPage.enterUsername(env.username);
-      await loginPage.enterPassword(env.password);
-      await loginPage.clickSignIn();
-    });
+    await expect(twoFAPage.otpInput).toBeVisible();
+    await twoFAPage.enterOTP(generateOTP());
+    await twoFAPage.submit();
 
-    await test.step('Enter OTP', async () => {
-      const otp = generateOTP();
-
-      await expect(twoFAPage.otpInput).toBeVisible();
-
-      await twoFAPage.enterOTP(otp);
-      await twoFAPage.submit();
-    });
-
-    await test.step('Verify successful login', async () => {
-      await expect(homePage.myAccountLink).toBeVisible();
-      await expect(homePage.signOutLink).toBeVisible();
-    });
+    await expect(homePage.myAccountLink).toBeVisible();
+    await expect(homePage.signOutLink).toBeVisible();
   });
 
   test('TC-002 User cannot log in with invalid credentials', async ({
-    page,
-    loginPage,
-    twoFAPage,
-    homePage,
-  }) => {
+    page, loginPage, twoFAPage, homePage }) => {
     const fakeUsername = faker.internet.username();
     const fakePassword = faker.internet.password({
       length: 16,
@@ -51,9 +35,7 @@ test.describe('Login', () => {
     });
 
     await loginPage.login(fakeUsername, fakePassword);
-
     await expect(page).toHaveURL(/\/login/);
-
     await expect(loginPage.errorMessage).toContainText(
       'Invalid user or password'
     );

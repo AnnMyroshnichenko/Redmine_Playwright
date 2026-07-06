@@ -8,7 +8,13 @@
     "otplib": "^13.4.1",
     "typescript": "^6.0.3"
   },
-  "scripts": {},
+  "scripts": {
+    "test": "npx playwright test",
+    "test:headed": "npx playwright test --headed",
+    "test:ui": "npx playwright test --ui",
+    "test:report": "npx playwright show-report",
+    "test:allure": "npx allure generate allure-results --clean -o allure-report && npx allure open allure-report"
+  },
   "dependencies": {
     "@faker-js/faker": "^10.5.0",
     "dotenv": "^17.4.2",
